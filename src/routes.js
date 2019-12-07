@@ -1,9 +1,10 @@
-const express = require("express");
+import express from 'express';
+import ToolController from './app/controllers/ToolController';
 
 const routes = express.Router();
 
-routes.get("/", (req, res) => {
-  res.json({ Hello: "world" });
-});
+routes.get('/tools', ToolController.index);
+routes.post('/tools', ToolController.store);
+routes.delete('/tools/:id', ToolController.destroy);
 
-module.exports = routes;
+export default routes;
