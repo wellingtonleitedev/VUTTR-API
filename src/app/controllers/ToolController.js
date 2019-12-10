@@ -2,20 +2,21 @@ import Tool from '../schemas/Tool';
 
 class ToolController {
   async index(req, res) {
-    const { q, tags_like, page = 1 } = req.query
-    let tools;
+    const { q, tags_like, page } = req.query
+    const filters = {}
 
     if (q) {
-      const search = new RegExp(q, 'i');
-      tools = await Tool.find().or([{ title: search }, { tags: search }]).skip((page - 1) * 10).limit(10);
+      filters.$or = [{ title: new RegExp(q, 'i') }, { tags: new RegExp(q, 'i') }]
     } else if (tags_like) {
-      const search = new RegExp(tags_like, 'i');
-      tools = await Tool.find().where({ tags: search }).skip((page - 1) * 10).limit(10);
-    } else {
-      tools = await Tool.find().skip((page - 1) * 10).limit(10);
+      filters.tags = new RegExp(tags_like, 'i');
     }
 
-    if (!tools.length) {
+    const tools = await Tool.paginate(filters, {
+      page: page || 1,
+      limit: 5,
+    });
+
+    if (!tools.total) {
       return res.status(401).json({ message: 'There is not any tools' });
     }
 
