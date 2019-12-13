@@ -2,11 +2,14 @@ import Tool from '../schemas/Tool';
 
 class ToolController {
   async index(req, res) {
-    const { q, tags_like, page } = req.query
-    const filters = {}
+    const { q, tags_like, page } = req.query;
+    const filters = {};
 
     if (q) {
-      filters.$or = [{ title: new RegExp(q, 'i') }, { tags: new RegExp(q, 'i') }]
+      filters.$or = [
+        { title: new RegExp(q, 'i') },
+        { tags: new RegExp(q, 'i') },
+      ];
     } else if (tags_like) {
       filters.tags = new RegExp(tags_like, 'i');
     }
