@@ -20,7 +20,7 @@ class ToolController {
     });
 
     if (!tools.total) {
-      return res.status(401).json({ message: 'There is not any tools' });
+      return res.status(401).json({ tools, message: 'There is not any tools' });
     }
 
     return res.json(tools);
