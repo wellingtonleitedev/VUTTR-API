@@ -1,14 +1,18 @@
 version: '3'
 
 services:
+  mysqlsrv:
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'vuttr'
+    ports:
+      - 3306:3306
+
   mongo:
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_DATABASE: vuttr
     ports:
-      - "27017:27017"
-
-networks:
-  mongo-compose-network:
-    driver: bridge
+      - '27017:27017'

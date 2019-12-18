@@ -2,11 +2,14 @@ import Tool from '../schemas/Tool';
 
 class ToolController {
   async index(req, res) {
-    const { q, tags_like, page } = req.query
-    const filters = {}
+    const { q, tags_like, page } = req.query;
+    const filters = {};
 
     if (q) {
-      filters.$or = [{ title: new RegExp(q, 'i') }, { tags: new RegExp(q, 'i') }]
+      filters.$or = [
+        { title: new RegExp(q, 'i') },
+        { tags: new RegExp(q, 'i') },
+      ];
     } else if (tags_like) {
       filters.tags = new RegExp(tags_like, 'i');
     }
@@ -17,7 +20,7 @@ class ToolController {
     });
 
     if (!tools.total) {
-      return res.status(401).json({ message: 'There is not any tools' });
+      return res.status(401).json({ tools, message: 'There is not any tools' });
     }
 
     return res.json(tools);
@@ -25,6 +28,16 @@ class ToolController {
 
   async store(req, res) {
     const tool = await Tool.create(req.body);
+
+    return res.json(tool);
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+
+    const tool = await Tool.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
 
     return res.json(tool);
   }
