@@ -7,6 +7,9 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
+routes.get('/', (req, res) => {
+  return res.json({ Hello: 'World' });
+});
 routes.post('/signup', UserController.store);
 routes.post('/signin', SessionController.store);
 

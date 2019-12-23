@@ -6,8 +6,9 @@
   "author": "Wellington Leite <wellingtonleitee.s@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/server.js",
-    "start:debug": "nodemon --inspect src/server.js"
+    "dev": "nodemon src/server.js",
+    "dev:debug": "nodemon --inspect src/server.js",
+    "start": "sequelize db:create && sequelize db:migrate && sucrase-node src/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

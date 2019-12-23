@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import databaseConfig from '../config/database';
 import User from '../app/models/User';
 
+import 'dotenv/config';
+
 const models = [User];
 
 class Database {
@@ -21,9 +23,8 @@ class Database {
   }
 
   mongo() {
-    this.mongoConnection = mongoose.connect('mongodb://localhost:27017/vuttr', {
+    this.mongoConnection = mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
-      useFindAndModify: true,
       useUnifiedTopology: true,
     });
   }
