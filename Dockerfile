@@ -8,12 +8,9 @@ COPY package.json yarn.* ./
 
 USER node
 
-RUN yarn install
+RUN yarn
 
 COPY --chown=node:node . .
-
-RUN yarn sequelize db:create
-RUN yarn sequelize db:migrate
 
 EXPOSE 3000
 

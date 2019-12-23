@@ -3,20 +3,29 @@ version: '3'
 services:
   app:
     build: ../
+    volumes: 
+      - .:/home/vuttr
+      - /home/vuttr/node_modules
     ports:
       - '3000:3000'
+    depends_on:
+      - mysqlsrv
+      - mongo
+    networks: 
+      - vuttr-networks
     command: yarn start
-
+    
   mysqlsrv:
     image: mysql
     ports:
       - '3306:3306'
-    restart: always
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: 'vuttr'
-    depends_on:
-      - app
+    volumes:
+      - vuttr-mysql-data:/data
+    networks: 
+      - vuttr-networks
 
   mongo:
     image: mongo
@@ -25,5 +34,12 @@ services:
     restart: always
     environment:
       MONGO_INITDB_DATABASE: vuttr
-    depends_on:
-      - app
+    networks: 
+      - vuttr-networks
+
+volumes:
+  vuttr-mysql-data:
+
+networks:
+  vuttr-networks:
+    driver: bridge
