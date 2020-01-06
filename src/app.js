@@ -4,6 +4,8 @@ import cors from 'cors';
 
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
+
+import 'dotenv/config';
 import './database';
 
 class App {

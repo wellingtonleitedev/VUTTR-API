@@ -1,9 +1,11 @@
+require('dotenv/config');
+
 module.exports = {
-  dialect: 'mysql',
-  username: 'root',
-  host: '127.0.0.1',
-  port: '3306',
-  database: 'vuttr',
+  dialect: process.env.MYSQL_DIALECT,
+  username: process.env.MYSQL_USERNAME,
+  host: process.env.MYSQL_HOST,
+  port: process.env.MYSQL_PORT,
+  database: process.env.MYSQL_DATABASE,
   define: {
     timestamps: true,
     underscored: true,

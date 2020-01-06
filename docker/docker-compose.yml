@@ -1,18 +1,30 @@
 version: '3'
 
 services:
-  mysqlsrv:
-    image: mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      MYSQL_DATABASE: 'vuttr'
+  postgres:
+    image: postgres:11
+    restart: always
     ports:
-      - 3306:3306
+      - '5432:5432'
+    volumes:
+      - /home/vuttr/data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - vuttr-networks
 
   mongo:
     image: mongo
     restart: always
-    environment:
-      MONGO_INITDB_DATABASE: vuttr
     ports:
       - '27017:27017'
+    volumes:
+      - /home/vuttr/data/mongo:/var/lib/mongodb/data
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DBNAME}
+    networks:
+      - vuttr-networks
+
+networks:
+  vuttr-networks:
+    driver: bridge
