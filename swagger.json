@@ -3,109 +3,245 @@
   "info": {
     "version": "1.0.0",
     "title": "VUTTR",
-    "description": "Very useful tools to research"
+    "description": "Very useful tools to research",
+    "contact": {
+      "email": "wellingtonleitee.s@gmail.com"
+    }
   },
-  "host": "localhost/3000",
-  "basePath": "/v1",
+  "host": "localhost:3000",
   "consumes": ["application/json"],
   "produces": ["application/json"],
+  "schemes": ["http"],
   "paths": {
-    "/tools": {
-      "get": {
-        "tags": ["Tools"],
-        "summary": "Returns a list of all tools",
+    "/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create an User for using application",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "User object that needs to create an user for sign in",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Wellington Leite"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "wellington@vuttr.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "ESLint"
-                },
-                "link": {
-                  "type": "string",
-                  "example": "eslint.org"
-                },
-                "description": {
-                  "type": "string",
-                  "example": "Find and fix problems in your JavaScript code"
-                },
-                "tags": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "example": "CodeFix"
-                  }
-                }
-              }
+              "$ref": "#/definitions/User"
             }
           }
         }
-      },
+      }
+    },
+    "/signin": {
       "post": {
-        "tags": ["Tools"],
-        "summary": "Returns a list of all tools",
-        "parameters": {
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string",
-                      "example": "ESLint"
-                    },
-                    "link": {
-                      "type": "string",
-                      "example": "eslint.org"
-                    },
-                    "description": {
-                      "type": "string",
-                      "example": "Find and fix problems in your JavaScript code"
-                    },
-                    "tags": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "example": "CodeFix"
-                      }
-                    }
-                  }
+        "tags": ["Users"],
+        "summary": "Sign in with user you created",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "User object that needs to sign in on application",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "wellington@vuttr.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "123456"
                 }
               }
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "ESLint"
-                },
-                "link": {
-                  "type": "string",
-                  "example": "eslint.org"
-                },
-                "description": {
-                  "type": "string",
-                  "example": "Find and fix problems in your JavaScript code"
-                },
-                "tags": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "example": "CodeFix"
-                  }
-                }
-              }
+              "$ref": "#/definitions/User"
             }
+          }
+        }
+      }
+    },
+    "/tools": {
+      "get": {
+        "tags": ["Tools"],
+        "summary": "Returns a list of tools",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "Find a specific tool by title or tags",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "tags_like",
+            "description": "Find a specific tool by only tags",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Number of current page",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tool"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["Tools"],
+        "summary": "Add a tool to the list",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Tool"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tool"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/tools/:id": {
+      "put": {
+        "tags": ["Tools"],
+        "summary": "Update a tool from list",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Tool"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tool"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Tools"],
+        "summary": "Delete a tool list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "object" }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "**You need to sign in to get your token**, then enter your bearer token in the format **Bearer &lt;token&gt;**"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Wellington Leite"
+        },
+        "email": {
+          "type": "string",
+          "example": "wellington@vuttr.com"
+        },
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTc5NDg4MDkyLCJleHAiOjE1ODAwOTI4OTJ9.Lrqw_75D6Mg9JUOBPTYnA2ALDW7PtBgvRb50GuyjXIk"
+        }
+      }
+    },
+    "Tool": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "ESLint"
+        },
+        "link": {
+          "type": "string",
+          "example": "eslint.org"
+        },
+        "description": {
+          "type": "string",
+          "example": "Find and fix problems in your JavaScript code"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "CodeFix"
           }
         }
       }
