@@ -1,8 +1,10 @@
 import User from '../models/User';
 
 class SessionService {
-  async store({ email, password }) {
-    let user = await User.findOne({ where: { email } });
+  async signin({ email, password }) {
+    verifyFields({ email, password });
+
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
       throw new Error('User not found');
@@ -12,13 +14,21 @@ class SessionService {
       throw new Error("Password doesn't match");
     }
 
-    user = {
-      name: user.name,
-      email: user.email,
+    const dto = {
+      user: {
+        name: user.name,
+        email: user.email,
+      },
       token: user.generateToken(user),
     };
 
-    return user;
+    return dto;
+  }
+
+  verifyFields({ email, password }) {
+    if (!email || !password) {
+      throw new Error('You need fill all fields');
+    }
   }
 }
 

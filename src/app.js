@@ -2,10 +2,9 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import 'express-async-errors';
-import Youch from 'youch';
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
-
+import exceptionHandler from './app/middlewares/exceptionHandler';
 import 'dotenv/config';
 import './database';
 
@@ -33,10 +32,7 @@ class App {
   }
 
   exceptionHandler() {
-    this.server.use(async (err, req, res, next) => {
-      const errors = await new Youch(err, req).toJSON();
-      return res.status(500).json(errors);
-    });
+    this.server.use(exceptionHandler);
   }
 }
 

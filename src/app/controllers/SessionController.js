@@ -2,8 +2,8 @@ import SessionService from '../services/SessionService';
 
 class SessionController {
   async store(req, res) {
-    const { email, password } = req.body;
-    const user = await SessionService.store({ email, password });
+    const user = await SessionService.signin({ ...req.body });
+
     res.json(user);
   }
 }
