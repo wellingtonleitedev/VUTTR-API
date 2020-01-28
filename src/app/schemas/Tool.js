@@ -4,6 +4,7 @@ import mongoosePaginate from 'mongoose-paginate';
 const ToolSchema = new mongoose.Schema({
   title: {
     type: String,
+    unique: true,
     required: true,
   },
   link: {
@@ -20,6 +21,6 @@ const ToolSchema = new mongoose.Schema({
   },
 });
 
-ToolSchema.plugin(mongoosePaginate)
+ToolSchema.plugin(mongoosePaginate);
 
 export default mongoose.model('Tool', ToolSchema);

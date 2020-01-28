@@ -1,53 +1,28 @@
-import Tool from '../schemas/Tool';
+import ToolService from '../services/ToolService';
 
 class ToolController {
   async index(req, res) {
-    const { q, tags_like, page } = req.query;
-    const filters = {};
-
-    if (q) {
-      filters.$or = [
-        { title: new RegExp(q, 'i') },
-        { tags: new RegExp(q, 'i') },
-      ];
-    } else if (tags_like) {
-      filters.tags = new RegExp(tags_like, 'i');
-    }
-
-    const tools = await Tool.paginate(filters, {
-      page: page || 1,
-      limit: 5,
-    });
-
-    if (!tools.total) {
-      return res.status(401).json({ tools, message: 'There is not any tools' });
-    }
-
+    const tools = await ToolService.find({ ...req.query });
     return res.json(tools);
   }
 
   async store(req, res) {
-    const tool = await Tool.create(req.body);
-
-    return res.json(tool);
+    const tools = await ToolService.create({ ...req.body });
+    return res.json(tools);
   }
 
   async update(req, res) {
-    const { id } = req.params;
-
-    const tool = await Tool.findByIdAndUpdate(id, req.body, {
-      new: true,
+    const tools = await ToolService.update({
+      id: req.params.id,
+      ...req.body,
     });
 
-    return res.json(tool);
+    return res.json(tools);
   }
 
   async destroy(req, res) {
-    const { id } = req.params;
-
-    await Tool.findByIdAndDelete(id);
-
-    return res.json();
+    const tools = await ToolService.delete({ ...req.params });
+    return res.json(tools);
   }
 }
 

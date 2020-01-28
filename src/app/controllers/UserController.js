@@ -1,11 +1,9 @@
-import User from '../models/User';
+import UserService from '../services/UserService';
 
 class UserController {
   async store(req, res) {
-    const { name, email, password } = req.body;
-
-    const user = await User.create({ name, email, password });
-
+    console.log({ res });
+    const user = await UserService.signup({ ...req.body });
     res.json(user);
   }
 }

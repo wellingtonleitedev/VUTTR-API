@@ -1,10 +1,10 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
-
+import 'express-async-errors';
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
-
+import exceptionHandler from './app/middlewares/exceptionHandler';
 import 'dotenv/config';
 import './database';
 
@@ -14,6 +14,7 @@ class App {
 
     this.middlewares();
     this.routes();
+    this.exceptionHandler();
   }
 
   middlewares() {
@@ -28,6 +29,10 @@ class App {
 
   routes() {
     this.server.use(routes);
+  }
+
+  exceptionHandler() {
+    this.server.use(exceptionHandler);
   }
 }
 
