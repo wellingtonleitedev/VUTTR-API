@@ -2,7 +2,7 @@ import User from '../models/User';
 
 class SessionService {
   async signin({ email, password }) {
-    verifyFields({ email, password });
+    this.verifyFields(email, password);
 
     const user = await User.findOne({ where: { email } });
 
@@ -25,7 +25,7 @@ class SessionService {
     return dto;
   }
 
-  verifyFields({ email, password }) {
+  verifyFields(email, password) {
     if (!email || !password) {
       throw new Error('You need fill all fields');
     }

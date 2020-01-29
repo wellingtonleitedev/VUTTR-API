@@ -2,7 +2,7 @@ import User from '../models/User';
 
 class UserService {
   async signup({ name, email, password }) {
-    verifyFields({ name, email, password });
+    this.verifyFields(name, email, password);
     const user = await User.create({ name, email, password });
 
     const dto = {
@@ -16,8 +16,8 @@ class UserService {
     return dto;
   }
 
-  verifyFields({ email, password }) {
-    if (!email || !password) {
+  verifyFields(name, email, password) {
+    if (!name || !email || !password) {
       throw new Error('You need fill all fields');
     }
   }

@@ -24,7 +24,7 @@ class ToolService {
   }
 
   async create({ title, link, description, tags }) {
-    this.verifyFields({ title, description, tags });
+    this.verifyFields(title, description, tags);
 
     const exist = await Tool.findOne({ where: { title } });
 
@@ -38,6 +38,8 @@ class ToolService {
   }
 
   async update({ id, title, link, description, tags }) {
+    this.verifyFields(title, description, tags);
+
     await Tool.findByIdAndUpdate(
       id,
       { title, link, description, tags },
@@ -52,7 +54,7 @@ class ToolService {
     return await this.get();
   }
 
-  verifyFields({ title, description, tags }) {
+  verifyFields(title, description, tags) {
     if (!title || !description || (!tags && !tags.length)) {
       throw new Error('You need fill all required fields');
     }
