@@ -1,11 +1,18 @@
 import Tool from '../schemas/Tool';
 
 class ToolService {
-  async get({ filters = {}, page = 1 }) {
-    return await Tool.paginate(filters, {
-      page: page,
+  constructor() {
+    this.currentPage = 1;
+    this.lastPage = 1;
+  }
+
+  async getTools() {
+    const tools = await Tool.paginate({}, {
+      page: this.currentPage,
       limit: 5,
     });
+
+    this.lastPage = tools.pages;
   }
 
   async find({ q, tags_like, page }) {
@@ -20,7 +27,15 @@ class ToolService {
       filters.tags = new RegExp(tags_like, 'i');
     }
 
-    return await this.get({ filters, page });
+    const tools = await Tool.paginate(filters, {
+      page: page || this.currentPage,
+      limit: 5,
+    });
+
+    this.currentPage = tools.page;
+    this.lastPage = tools.pages;
+
+    return tools;
   }
 
   async create({ title, link, description, tags }) {
@@ -34,7 +49,8 @@ class ToolService {
 
     await Tool.create({ title, link, description, tags });
 
-    return await this.get();
+    this.currentPage = this.lastPage;
+    return await this.getTools();
   }
 
   async update({ id, title, link, description, tags }) {
@@ -46,12 +62,12 @@ class ToolService {
       { new: true }
     );
 
-    return await this.get();
+    return await this.getTools();
   }
 
   async delete({ id }) {
     await Tool.findByIdAndDelete(id);
-    return await this.get();
+    return await this.getTools();
   }
 
   verifyFields(title, description, tags) {
