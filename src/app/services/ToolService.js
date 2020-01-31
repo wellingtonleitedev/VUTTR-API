@@ -13,6 +13,7 @@ class ToolService {
     });
 
     this.lastPage = tools.pages;
+    return tools;
   }
 
   async find({ q, tags_like, page }) {
@@ -71,7 +72,8 @@ class ToolService {
   }
 
   verifyFields(title, description, tags) {
-    if (!title || !description || (!tags && !tags.length)) {
+    console.log({ tags })
+    if (!title || !description || !(tags && tags.length)) {
       throw new Error('You need fill all required fields');
     }
   }
