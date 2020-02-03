@@ -2,21 +2,31 @@ import Tool from '../schemas/Tool';
 
 class ToolService {
   constructor() {
-    this.currentPage = 1;
-    this.lastPage = 1;
+    this.params = {
+      currentPage: 1,
+      lastPage: 1,
+      totalTools: 1,
+      filters: {},
+    };
   }
 
   async getTools() {
-    const tools = await Tool.paginate({}, {
-      page: this.currentPage,
+    const tools = await Tool.paginate(this.params.filters, {
+      page: this.params.currentPage,
       limit: 5,
     });
 
-    this.lastPage = tools.pages;
+    this.params = {
+      ...this.params,
+      currentPage: tools.page,
+      lastPage: tools.pages,
+      totalTools: tools.total,
+    };
+
     return tools;
   }
 
-  async find({ q, tags_like, page }) {
+  async find({ q, tags_like, page = 1 }) {
     const filters = {};
 
     if (q) {
@@ -28,13 +38,13 @@ class ToolService {
       filters.tags = new RegExp(tags_like, 'i');
     }
 
-    const tools = await Tool.paginate(filters, {
-      page: page || this.currentPage,
-      limit: 5,
-    });
+    this.params = {
+      ...this.params,
+      filters,
+      currentPage: page,
+    };
 
-    this.currentPage = tools.page;
-    this.lastPage = tools.pages;
+    const tools = await this.getTools();
 
     return tools;
   }
@@ -50,8 +60,15 @@ class ToolService {
 
     await Tool.create({ title, link, description, tags });
 
-    this.currentPage = this.lastPage;
-    return await this.getTools();
+    const total = this.params.totalTools + 1;
+    this.params = {
+      ...this.params,
+      currentPage: Math.ceil(total / 5),
+    };
+
+    const tools = await this.getTools();
+
+    return tools;
   }
 
   async update({ id, title, link, description, tags }) {
@@ -63,16 +80,24 @@ class ToolService {
       { new: true }
     );
 
-    return await this.getTools();
+    const tools = await this.getTools();
+    return tools;
   }
 
   async delete({ id }) {
     await Tool.findByIdAndDelete(id);
-    return await this.getTools();
+
+    const total = this.params.totalTools - 1;
+    this.params = {
+      ...this.params,
+      currentPage: Math.ceil(total / 5),
+    };
+
+    const tools = await this.getTools();
+    return tools;
   }
 
   verifyFields(title, description, tags) {
-    console.log({ tags })
     if (!title || !description || !(tags && tags.length)) {
       throw new Error('You need fill all required fields');
     }
