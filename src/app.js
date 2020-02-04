@@ -19,7 +19,7 @@ class App {
 
   middlewares() {
     this.server.use(express.json());
-    this.server.use(cors());
+    this.server.use(cors({ origin: process.env.APP_URL }));
     this.server.use(
       '/api-docs',
       swaggerUi.serve,
