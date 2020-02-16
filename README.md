@@ -55,3 +55,6 @@
 ## `Como usar`
 
 Com a aplicação em execução, você pode acessar a documentação da aplicação, [clique aqui](http://localhost:3000/api-docs)
+
+## `VUTTR (Front-end)`
+Para execução complenta do projeto, faça o download do [VUTTR (Front-end)](https://github.com/Wellios/VUTTR), siga os passos de execução, e aproveite.
