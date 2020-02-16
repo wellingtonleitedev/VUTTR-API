@@ -3,26 +3,26 @@
 > Este projeto é um desafio proposto pela [Bossabox](https://bossabox.com/para-empresas)
 
 ## `Tecnologias utilizadas na aplicação`
-- _bcrypt:_ Criptografia de senhas,
-- _cors:_ Controlar o acesso a API,
-- _dotenv:_ Usar variáveis de ambiente,
-- _express:_ Framework usado para o desenvolvimento de toda a API,
-- _express-async-errors:_ Retorno dos erros, auxilia na utilização de Service Pattern,
-- _jsonwebtoken:_ Utilizar padrão de autenticação por meio de Token na API,
-- _mongoose:_ ORM para setenças de Banco de Dados, neste caso o MongoDb,
-- _mongoose-paginate:_ Plugin para paginação dos retornos do Banco MongoDb,
-- _pg e pg-hstore:_ Utilizar o Postgres com o ORM Sequelize,
-- _sequelize:_ ORM para setenças de Banco de Dados, neste caso o Postgres,
-- _sequelize-cli:_ Utilização do Sequelize, por meio de comandos no terminal,
-- _sucrase:_ Trazer ao express a sintaxe de import/export como no React,
-- _swagger-ui-express:_ Criação da Documentação da API,
-- _youch:_ Modificar para JSON o retorno dos erros,
+- __bcrypt:__ Criptografia de senhas,
+- __cors:__ Controlar o acesso a API,
+- __dotenv:__ Usar variáveis de ambiente,
+- __express:__ Framework usado para o desenvolvimento de toda a API,
+- __express-async-errors:__ Retorno dos erros, auxilia na utilização de Service Pattern,
+- __jsonwebtoken:__ Utilizar padrão de autenticação por meio de Token na API,
+- __mongoose:__ ORM para setenças de Banco de Dados, neste caso o MongoDb,
+- __mongoose-paginate:__ Plugin para paginação dos retornos do Banco MongoDb,
+- __pg e pg-hstore:__ Utilizar o Postgres com o ORM Sequelize,
+- __sequelize:__ ORM para setenças de Banco de Dados, neste caso o Postgres,
+- __sequelize-cli:__ Utilização do Sequelize, por meio de comandos no terminal,
+- __sucrase:__ Trazer ao express a sintaxe de import/export como no React,
+- __swagger-ui-express:__ Criação da Documentação da API,
+- __youch:__ Modificar para JSON o retorno dos erros,
 
 ## `Tecnologias utilizadas no Desenvolvimento`
-- _nodemon:_ Mantém a execução do projeto e o atualiza, após atualização de código,
-- _eslint:_ Padronizão e identação de código,
-- _prettier:_ Auxilia o eslint na formatação do código, mantendo sempre o padrão,
-- _docker:_ Utilizado neste caso para rodar containers com os Bancos de Dados utilizados (Postgres e MongoDb),
+- __nodemon:__ Mantém a execução do projeto e o atualiza, após atualização de código,
+- __eslint:__ Padronizão e identação de código,
+- __prettier:__ Auxilia o eslint na formatação do código, mantendo sempre o padrão,
+- __docker:__ Utilizado neste caso para rodar containers com os Bancos de Dados utilizados (Postgres e MongoDb),
 
 ## `Preparando o ambiente`
 
